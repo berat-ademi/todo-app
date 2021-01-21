@@ -1,0 +1,97 @@
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+    crossorigin="anonymous"
+  />
+</head>
+<body>
+  <div class="header">
+    <h1>YOUR TO-DO APP</h1>
+  </div>
+
+  <div class="container">
+    <form method="POST" action="{{ url_for('search') }}">
+      <input
+        autocomplete="off"
+        class="d-inline-flex p-2 bd-highlight"
+        type="text"
+        name="search"
+        placeholder="Search for task"
+      />
+      <button class="btn btn-secondary" type="submit">Search</button>
+    </form>
+    <a
+      class="btn btn-outline-secondary"
+      method="GET"
+      href="{{ url_for('index') }}"
+    >
+      Show all Tasks
+    </a>
+    {% if todos %}
+    <table class="table table-bordered table-striped">
+      {% for todo in todos %}
+      <tr>
+        <td>{{ todo.id }}</td>
+        <td>{{ todo.title }}</td>
+        <td>{% if todo.status == 1 %} Done {% else %} Open {%endif %}</td>
+        <td>
+          {% if todo.status == 0 %}
+          <a
+            type="button"
+            class="btn btn-outline-success"
+            href="{{ url_for('done', id=todo.id) }}"
+            >Mark as done</a
+          >
+          {% endif %}
+          <a
+            id="dbd"
+            type="button"
+            class="btn btn-outline-primary"
+            href="{{ url_for('edit', id=todo.id) }}"
+            >Edit</a
+          >
+          <a
+            id="dbd"
+            type="button"
+            class="btn btn-outline-danger"
+            href="{{ url_for('delete', id=todo.id) }}"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>0 todos</p>
+    {% endif %}
+
+    <br />
+    <br />
+
+    <form method="POST" action="{{ url_for('index') }}">
+      <input
+        autocomplete="off"
+        id="add"
+        required
+        type="text"
+        class="d-inline-flex p-2 bd-highlight"
+        name="todo"
+        placeholder="Enter your task"
+      />
+      <button class="btn btn-secondary" type="submit">Save</button>
+    </form>
+  </div>
+</body>
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+  crossorigin="anonymous"
+></script>
